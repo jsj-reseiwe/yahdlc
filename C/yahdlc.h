@@ -41,10 +41,6 @@ typedef struct {
   int dest_index;
 } yahdlc_state_t;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * Set the yahdlc state
  *
@@ -125,9 +121,5 @@ void yahdlc_get_data_reset_with_state(yahdlc_state_t *state);
  */
 int yahdlc_frame_data(yahdlc_control_t *control, const char *src,
                       unsigned int src_len, char *dest, unsigned int *dest_len);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif
