@@ -115,12 +115,12 @@ void yahdlc_get_data_reset_with_state(yahdlc_state_t *state) {
   state->control_escape = 0;
 }
 
-int yahdlc_get_data(yahdlc_control_t *control, const char *src,
+int yahdlc_get_data(yahdlc_control_t *control, unsigned char *address, const char *src,
                     unsigned int src_len, char *dest, unsigned int *dest_len) {
-  return yahdlc_get_data_with_state(&yahdlc_state, control, src, src_len, dest, dest_len);
+  return yahdlc_get_data_with_state(&yahdlc_state, control, address, src, src_len, dest, dest_len);
 }
 
-int yahdlc_get_data_with_state(yahdlc_state_t *state, yahdlc_control_t *control, const char *src,
+int yahdlc_get_data_with_state(yahdlc_state_t *state, yahdlc_control_t *control, unsigned char *address, const char *src,
                     unsigned int src_len, char *dest, unsigned int *dest_len) {
   int ret;
   char value;
@@ -170,7 +170,10 @@ int yahdlc_get_data_with_state(yahdlc_state_t *state, yahdlc_control_t *control,
         // Now update the FCS value
         state->fcs = fcs16(state->fcs, value);
 
-        if (state->src_index == state->start_index + 2) {
+        if (state->src_index == state->start_index + 1) {
+        	// Address field is the first byte after the start flag sequence
+        	*address = value;
+        } else if (state->src_index == state->start_index + 2) {
           // Control field is the second byte after the start flag sequence
           *control = yahdlc_get_control_type(value);
         } else if (state->src_index > (state->start_index + 2)) {
@@ -207,7 +210,7 @@ int yahdlc_get_data_with_state(yahdlc_state_t *state, yahdlc_control_t *control,
   return ret;
 }
 
-int yahdlc_frame_data(yahdlc_control_t *control, const char *src,
+int yahdlc_frame_data(yahdlc_control_t *control, unsigned char address, const char *src,
                       unsigned int src_len, char *dest, unsigned int *dest_len) {
   unsigned int i;
   int dest_index = 0;
@@ -222,9 +225,9 @@ int yahdlc_frame_data(yahdlc_control_t *control, const char *src,
   // Start by adding the start flag sequence
   dest[dest_index++] = YAHDLC_FLAG_SEQUENCE;
 
-  // Add the all-station address from HDLC (broadcast)
-  fcs = fcs16(fcs, YAHDLC_ALL_STATION_ADDR);
-  yahdlc_escape_value(YAHDLC_ALL_STATION_ADDR, dest, &dest_index);
+  // Add the address
+  fcs = fcs16(fcs, address);
+  yahdlc_escape_value(address, dest, &dest_index);
 
   // Add the framed control field value
   value = yahdlc_frame_control_type(control);

@@ -75,7 +75,7 @@ int yahdlc_get_state(yahdlc_state_t *state);
  *
  * @see yahdlc_get_data_with_state
  */
-int yahdlc_get_data(yahdlc_control_t *control, const char *src,
+int yahdlc_get_data(yahdlc_control_t *control, unsigned char *address, const char *src,
                     unsigned int src_len, char *dest, unsigned int *dest_len);
 
 /**
@@ -88,7 +88,7 @@ int yahdlc_get_data(yahdlc_control_t *control, const char *src,
  *
  * @see yahdlc_get_data
  */
-int yahdlc_get_data_with_state(yahdlc_state_t *state, yahdlc_control_t *control, const char *src,
+int yahdlc_get_data_with_state(yahdlc_state_t *state, yahdlc_control_t *control, unsigned char *address, const char *src,
                                unsigned int src_len, char *dest, unsigned int *dest_len);
 
 
@@ -119,7 +119,7 @@ void yahdlc_get_data_reset_with_state(yahdlc_state_t *state);
  * @retval 0 Success
  * @retval -EINVAL Invalid parameter
  */
-int yahdlc_frame_data(yahdlc_control_t *control, const char *src,
+int yahdlc_frame_data(yahdlc_control_t *control, unsigned char address, const char *src,
                       unsigned int src_len, char *dest, unsigned int *dest_len);
 
 #endif
