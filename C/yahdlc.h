@@ -75,8 +75,8 @@ int yahdlc_get_state(yahdlc_state_t *state);
  *
  * @see yahdlc_get_data_with_state
  */
-int yahdlc_get_data(yahdlc_control_t *control, unsigned char *address, const char *src,
-                    unsigned int src_len, char *dest, unsigned int *dest_len);
+int yahdlc_get_data(yahdlc_control_t *control, unsigned char *address, const unsigned char *src,
+                    unsigned int src_len, unsigned char *dest, unsigned int *dest_len);
 
 /**
  * Retrieves data from specified buffer containing the HDLC frame. Frames can be
@@ -88,8 +88,8 @@ int yahdlc_get_data(yahdlc_control_t *control, unsigned char *address, const cha
  *
  * @see yahdlc_get_data
  */
-int yahdlc_get_data_with_state(yahdlc_state_t *state, yahdlc_control_t *control, unsigned char *address, const char *src,
-                               unsigned int src_len, char *dest, unsigned int *dest_len);
+int yahdlc_get_data_with_state(yahdlc_state_t *state, yahdlc_control_t *control, unsigned char *address, const unsigned char *src,
+                               unsigned int src_len, unsigned char *dest, unsigned int *dest_len);
 
 
 /**
@@ -119,7 +119,7 @@ void yahdlc_get_data_reset_with_state(yahdlc_state_t *state);
  * @retval 0 Success
  * @retval -EINVAL Invalid parameter
  */
-int yahdlc_frame_data(yahdlc_control_t *control, unsigned char address, const char *src,
-                      unsigned int src_len, char *dest, unsigned int *dest_len);
+int yahdlc_frame_data(yahdlc_control_t *control, unsigned char address, const unsigned char *src,
+                      unsigned int src_len, unsigned char *dest, unsigned int *dest_len);
 
 #endif

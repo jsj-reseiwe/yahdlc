@@ -42,7 +42,7 @@ int yahdlc_get_state(yahdlc_state_t *state) {
   return 0;
 }
 
-void yahdlc_escape_value(char value, char *dest, int *dest_index) {
+void yahdlc_escape_value(unsigned char value, unsigned char *dest, int *dest_index) {
   // Check and escape the value if needed
   if ((value == YAHDLC_FLAG_SEQUENCE) || (value == YAHDLC_CONTROL_ESCAPE)) {
     dest[(*dest_index)++] = YAHDLC_CONTROL_ESCAPE;
@@ -115,13 +115,13 @@ void yahdlc_get_data_reset_with_state(yahdlc_state_t *state) {
   state->control_escape = 0;
 }
 
-int yahdlc_get_data(yahdlc_control_t *control, unsigned char *address, const char *src,
-                    unsigned int src_len, char *dest, unsigned int *dest_len) {
+int yahdlc_get_data(yahdlc_control_t *control, unsigned char *address, const unsigned char *src,
+                    unsigned int src_len, unsigned char *dest, unsigned int *dest_len) {
   return yahdlc_get_data_with_state(&yahdlc_state, control, address, src, src_len, dest, dest_len);
 }
 
-int yahdlc_get_data_with_state(yahdlc_state_t *state, yahdlc_control_t *control, unsigned char *address, const char *src,
-                    unsigned int src_len, char *dest, unsigned int *dest_len) {
+int yahdlc_get_data_with_state(yahdlc_state_t *state, yahdlc_control_t *control, unsigned char *address, const unsigned char *src,
+                    unsigned int src_len, unsigned char *dest, unsigned int *dest_len) {
   int ret;
   char value;
   unsigned int i;
@@ -210,8 +210,8 @@ int yahdlc_get_data_with_state(yahdlc_state_t *state, yahdlc_control_t *control,
   return ret;
 }
 
-int yahdlc_frame_data(yahdlc_control_t *control, unsigned char address, const char *src,
-                      unsigned int src_len, char *dest, unsigned int *dest_len) {
+int yahdlc_frame_data(yahdlc_control_t *control, unsigned char address, const unsigned char *src,
+                      unsigned int src_len, unsigned char *dest, unsigned int *dest_len) {
   unsigned int i;
   int dest_index = 0;
   unsigned char value = 0;
